@@ -1,0 +1,19 @@
+{
+  "name": "com.fps.core",
+  "author": "Fixeles",
+  "displayName": "FPS Core",
+  "description": "Core",
+  "unity": "2022.3",
+  "version": "0.0.1",
+  "keywords": [
+    "Fluffy Pixels",
+    "fps"
+  ],
+  "dependencies": {
+    "com.fps.utils": "0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fixeles/fps-core"
+  }
+}
