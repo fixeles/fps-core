@@ -46,7 +46,9 @@ namespace UIService.Mono
                 string[] res = UnityEditor.UnityStats.screenRes.Split('x');
                 return new Vector2(int.Parse(res[0]), int.Parse(res[1]));
 #endif
+#pragma warning disable CS0162
                 return new Vector2(Screen.width, Screen.height);
+#pragma warning restore CS0162
             }
         }
 

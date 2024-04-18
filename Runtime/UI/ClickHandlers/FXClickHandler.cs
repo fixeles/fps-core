@@ -5,7 +5,7 @@ namespace FPS.UI.ClickHandlers
 {
     public abstract class FXClickHandler : MonoBehaviour
     {
-        [SerializeField] private string sfxName = "event:/UI/Clicks/MenuClick";
+        // [SerializeField] private string sfxName = "event:/UI/Clicks/MenuClick";
         // [Inject] private SFXController _sfxController;
 
         private static bool _cooldown;
