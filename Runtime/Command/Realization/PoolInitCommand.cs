@@ -2,10 +2,9 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using FPS.Pool;
 using UnityEngine;
 
-namespace FPS
+namespace FPS.Pool
 {
     public class PoolInitCommand : AsyncCommand
     {
