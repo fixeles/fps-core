@@ -1,8 +1,9 @@
 #if FPS_LOC
 using System;
+using FPS.Localization;
 using UnityEngine;
 
-namespace FPS.Localization
+namespace FPS
 {
     public class LocalizationInitCommand : SyncCommand
     {
