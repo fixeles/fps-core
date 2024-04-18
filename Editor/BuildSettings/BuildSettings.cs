@@ -10,7 +10,7 @@ namespace FPS
         private void OnValidate()
         {
             const string tgtConst = "BUILD_";
-            var targetDefine = tgtConst + buildTarget;
+            var targetDefine = tgtConst + buildTarget;          
             if (!DefineHelper.HasDefine(targetDefine))
             {
                 var enumNames = Enum.GetNames(typeof(BuildTarget));

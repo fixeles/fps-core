@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -6,13 +5,17 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class CommandQueue : IDisposable
+    public class CommandQueue
     {
+        public delegate void ProgressDelegate(float progress);
+
         public event ProgressDelegate ProgressUpdateEvent;
+
         private readonly Queue<Command> _queue = new();
         private readonly CancellationTokenSource _cts = new();
 
-        public void AddCommand(Command command)
+
+        public void Enqueue(Command command)
         {
             _queue.Enqueue(command);
         }
@@ -30,6 +33,7 @@ namespace FPS
                         syncCommand.Do();
                         await UniTask.Yield();
                         break;
+
                     case AsyncCommand asyncCommand:
                         await asyncCommand.Do(token);
                         if (token.IsCancellationRequested)
@@ -39,16 +43,20 @@ namespace FPS
                         }
                         break;
                 }
-                Debug.Log($"{command.Name()}: {command.Status}");
+                Debug.Log($"{command.Name}: {command.Status}");
                 ProgressUpdateEvent?.Invoke((commandsCount - _queue.Count) / commandsCount);
             }
+            Dispose();
         }
 
-        public delegate void ProgressDelegate(float progress);
-
-        public void Dispose()
+        public void ClearSubscriptions()
         {
             ProgressUpdateEvent = null;
+        }
+
+        private void Dispose()
+        {
+            ClearSubscriptions();
             _cts.Dispose();
         }
     }

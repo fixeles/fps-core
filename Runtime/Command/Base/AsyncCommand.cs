@@ -5,6 +5,6 @@ namespace FPS
 {
     public abstract class AsyncCommand : Command
     {
-        public abstract UniTask<CommandStatus> Do(CancellationToken token);
+        public abstract UniTask Do(CancellationToken token);
     }
 }
