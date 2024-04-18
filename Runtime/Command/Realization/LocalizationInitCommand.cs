@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace FPS.Localization
+namespace FPS
 {
     public class LocalizationInitCommand : SyncCommand
     {

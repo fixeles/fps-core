@@ -1,16 +1,19 @@
 #if FPS_POOL 
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using FPS.Pool;
 using UnityEngine;
 
-namespace FPS.Pool
+namespace FPS
 {
-    public class PoolInitCommand : SyncCommand
+    public class PoolInitCommand : AsyncCommand
     {
-        public override void Do()
+        public override async UniTask Do(CancellationToken token)
         {
             try
             {
-                FluffyPool.Init();
+                await FluffyPool.InitAsync();
                 Status = CommandStatus.Success;
             }
             catch (Exception e)
@@ -21,4 +24,5 @@ namespace FPS.Pool
         }
     }
 }
+
 #endif
