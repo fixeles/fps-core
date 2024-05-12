@@ -11,6 +11,8 @@ namespace FPS
 
         private void Launch()
         {
+            new GameObject(nameof(RuntimeDispatcher)).AddComponent<RuntimeDispatcher>().Init();
+
             var queue = new CommandQueue();
             BaseCommandsQueue.Insert(queue);
 

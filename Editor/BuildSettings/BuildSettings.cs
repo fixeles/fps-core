@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace FPS
 {
+    [CreateAssetMenu(menuName = " ")]
     public class BuildSettings : ScriptableObject
     {
         [SerializeField] private BuildTarget buildTarget;

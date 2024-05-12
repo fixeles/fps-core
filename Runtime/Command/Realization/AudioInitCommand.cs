@@ -1,17 +1,16 @@
-#if FPS_POOL 
 using System;
-using FPS.Pool;
+using FPS.SFX;
 using UnityEngine;
 
 namespace FPS
 {
-    public class PoolInitCommand : SyncCommand
+    public class AudioInitCommand : SyncCommand
     {
         public override void Do()
         {
             try
             {
-                FluffyPool.Init(RuntimeDispatcher.CancellationToken);
+                FluffyAudio.PlaySfx("intro");
                 Status = CommandStatus.Success;
             }
             catch (Exception e)
@@ -22,5 +21,3 @@ namespace FPS
         }
     }
 }
-
-#endif
