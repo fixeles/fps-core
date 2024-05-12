@@ -8,8 +8,12 @@ namespace FPS
         [MenuItem("FPS/Sfx Description")]
         private static void ShowWindow()
         {
-            var poolDescription = Utils.Editor.GetAllInstances<SfxDescription>()[0];
-            EditorUtility.OpenPropertyEditor(poolDescription);
+#if CORE_DEV
+            var description = Utils.Editor.GetAllInstances<SfxDescription>()[0];
+#else
+            var description = UnityEngine.Resources.Load<SfxDescription>(nameof(SfxDescription));
+#endif
+            EditorUtility.OpenPropertyEditor(description);
         }
     }
 }
