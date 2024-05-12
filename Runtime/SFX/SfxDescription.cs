@@ -37,5 +37,16 @@ namespace FPS.SFX
             Debug.LogWarning($"Music clip {key} is missing");
             return false;
         }
+
+#if UNITY_EDITOR
+        private class Creator : ScriptableObjectCreator<SfxDescription>
+        {
+            [UnityEditor.InitializeOnLoadMethod]
+            private static void Create()
+            {
+                TryCreate();
+            }
+        }
+#endif
     }
 }
