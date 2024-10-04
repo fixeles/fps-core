@@ -8,8 +8,8 @@ namespace FPS.UI
 
         public void UpdateProgress(float percent, string labelContent)
         {
-            progressBar.SetText(labelContent);
-            progressBar.Fill(percent);
+            progressBar.Text = labelContent;
+            progressBar.FillAmount = percent;
         }
     }
 }

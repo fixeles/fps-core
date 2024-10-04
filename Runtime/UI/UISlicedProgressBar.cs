@@ -18,21 +18,25 @@ namespace FPS.UI
                 _parentWidth = rectTransform.rect.width;
         }
 
-        private void SetParent(RectTransform parent)
+        public RectTransform Parent
         {
-            _parentWidth = parent.sizeDelta.x;
-            transform.SetParent(parent);
+            set
+            {
+                _parentWidth = value.sizeDelta.x;
+                transform.SetParent(value);
+            }
         }
 
-        public void SetText(string content)
-        {
-            label.text = content;
-        }
+        public string Text { set => label.text = value; }
 
-        public void Fill(float percent)
+        public float FillAmount
         {
-            var distance = _parentWidth * percent - inset * 2;
-            filler.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, inset, distance);
+            set
+            {
+                value = Mathf.Clamp(value, 0f, 1f);
+                var distance = _parentWidth * value - inset * 2;
+                filler.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, inset, distance);
+            }
         }
     }
 }
