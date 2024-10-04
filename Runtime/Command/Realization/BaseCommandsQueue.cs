@@ -6,10 +6,10 @@ namespace FPS
         {
             commandQueue.Enqueue(new UIServiceInitCommand());
             commandQueue.Enqueue(new ShowLoaderCommand(commandQueue));
-            commandQueue.Enqueue(new AudioInitCommand());
 #if FPS_POOL
             commandQueue.Enqueue(new PoolInitCommand());
 #endif
+            commandQueue.Enqueue(new AudioInitCommand());
 #if FPS_LOC
             commandQueue.Enqueue(new LocalizationInitCommand());
 #endif

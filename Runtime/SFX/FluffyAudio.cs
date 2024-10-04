@@ -14,6 +14,7 @@ namespace FPS.SFX
 
         static FluffyAudio()
         {
+            //todo: remove resources. Serialize
             Description = Resources.Load<SfxDescription>(nameof(SfxDescription));
         }
 
