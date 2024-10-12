@@ -10,7 +10,6 @@ namespace FPS
         {
             try
             {
-                FluffyAudio.PlaySfx("intro");
                 Status = CommandStatus.Success;
             }
             catch (Exception e)
