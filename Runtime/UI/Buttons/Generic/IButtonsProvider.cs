@@ -1,7 +1,6 @@
 using System;
-using FPS.Buttons.ModularButton.Modules;
 
-namespace Game.UIService.Buttons.Generic
+namespace FPS.UI.Buttons.Generic
 {
     public interface IButtonsProvider<T>
     {

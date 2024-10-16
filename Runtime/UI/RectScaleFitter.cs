@@ -1,7 +1,7 @@
 using EasyButtons;
 using UnityEngine;
 
-namespace UIService.Mono
+namespace FPS.UI
 {
     public class RectScaleFitter : MonoBehaviour
     {

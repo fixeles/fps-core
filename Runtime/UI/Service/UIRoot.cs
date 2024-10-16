@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FPS
+namespace FPS.UI
 {
     public class UIRoot : MonoBehaviour
     {

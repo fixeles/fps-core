@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace FPS
 {
-    public class SfxDescriptionWindow
+    public static class SfxDescriptionWindow
     {
         [MenuItem("FPS/Sfx Description")]
         private static void ShowWindow()

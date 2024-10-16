@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FPS
+namespace FPS.UI
 {
     [RequireComponent(typeof(CanvasGroup), typeof(RectTransform))]
     public abstract class UIWindow : MonoBehaviour, IWindow

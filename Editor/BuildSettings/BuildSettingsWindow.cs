@@ -2,7 +2,7 @@ using UnityEditor;
 
 namespace FPS
 {
-    public class BuildSettingsWindow
+    public static class BuildSettingsWindow
     {
         [MenuItem("FPS/Build Settings")]
         private static void ShowWindow()

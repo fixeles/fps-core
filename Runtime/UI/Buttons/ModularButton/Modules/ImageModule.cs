@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace FPS.Buttons.ModularButton.Modules
+namespace FPS.UI.Buttons
 {
-    [DisallowMultipleComponent, RequireComponent(typeof(Game.UIService.Buttons.ModularButton))]
+    [DisallowMultipleComponent, RequireComponent(typeof(ModularButton))]
     public class ImageModule : ButtonModule
     {
         [SerializeField, Get(true)] private Image image;

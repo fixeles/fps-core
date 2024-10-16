@@ -1,4 +1,4 @@
-namespace FPS
+namespace FPS.UI
 {
     public enum WindowSwitchType
     {

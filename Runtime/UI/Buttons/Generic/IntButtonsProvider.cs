@@ -1,4 +1,4 @@
-namespace Game.UIService.Buttons.Generic
+namespace FPS.UI.Buttons.Generic
 {
     public class IntButtonsProvider : ButtonsProvider<int>
     {

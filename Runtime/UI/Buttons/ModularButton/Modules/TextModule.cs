@@ -1,9 +1,9 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace FPS.Buttons.ModularButton.Modules
+namespace FPS.UI.Buttons
 {
-    [DisallowMultipleComponent, RequireComponent(typeof(Game.UIService.Buttons.ModularButton))]
+    [DisallowMultipleComponent, RequireComponent(typeof(ModularButton))]
     public class TextModule : ButtonModule
     {
         [SerializeField] private TMP_Text label;

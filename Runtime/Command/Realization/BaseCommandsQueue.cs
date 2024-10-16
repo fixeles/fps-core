@@ -1,3 +1,5 @@
+using FPS.UI;
+
 namespace FPS
 {
     public class BaseCommandsQueue

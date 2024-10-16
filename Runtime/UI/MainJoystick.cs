@@ -1,7 +1,7 @@
 #if JOYSTICK
 using UnityEngine;
 
-namespace Game.UI
+namespace FPS.UI
 {
     [RequireComponent(typeof(Joystick))]
     public class MainJoystick : MonoBehaviour

@@ -2,12 +2,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using EasyButtons;
-using FPS;
-using FPS.Buttons.ModularButton.Modules;
+using Game.UIService.Buttons;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Game.UIService.Buttons
+namespace FPS.UI.Buttons
 {
     public class ButtonsProvider : MonoBehaviour, IButtonsProvider
     {

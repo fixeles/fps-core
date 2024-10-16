@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FPS.Buttons.ModularButton.Modules
+namespace FPS.UI.Buttons
 {
     public abstract class ButtonModule : MonoBehaviour
     {

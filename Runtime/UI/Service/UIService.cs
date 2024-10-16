@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
-namespace FPS
+namespace FPS.UI
 {
 	public static class UIService
 	{
@@ -75,11 +75,16 @@ namespace FPS
 
 		public static void Hide<T>(WindowSwitchType switchType = WindowSwitchType.BounceWithFade) where T : IWindow
 		{
-			Hide<T>(typeof(T), switchType);
+			Hide(typeof(T), switchType);
 		}
 
-		public static void Hide<T>(Type type, WindowSwitchType switchType = WindowSwitchType.BounceWithFade)
+		public static void Hide<T>(T window, WindowSwitchType switchType = WindowSwitchType.BounceWithFade)
 			where T : IWindow
+		{
+			Hide(typeof(T), switchType);
+		}
+
+		public static void Hide(Type type, WindowSwitchType switchType = WindowSwitchType.BounceWithFade)
 		{
 			var window = ActiveWindows[type];
 			window.Hide(switchType);

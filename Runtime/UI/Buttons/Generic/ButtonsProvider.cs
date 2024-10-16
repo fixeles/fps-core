@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using EasyButtons;
-using FPS;
-using FPS.Buttons.ModularButton.Modules;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Game.UIService.Buttons.Generic
+namespace FPS.UI.Buttons.Generic
 {
     public class ButtonsProvider<T> : MonoBehaviour, IButtonsProvider<T>
     {

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FPS;
-using FPS.Buttons.ModularButton.Modules;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.UIService.Buttons
+namespace FPS.UI.Buttons
 {
     [RequireComponent(typeof(Button))]
     public class ModularButton : MonoBehaviour, IButtonModuleHolder

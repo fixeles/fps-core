@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace FPS
+namespace FPS.UI
 {
     public class UIServiceInitCommand : AsyncCommand
     {
