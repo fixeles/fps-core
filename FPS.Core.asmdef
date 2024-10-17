@@ -9,7 +9,8 @@
         "GUID:f24cf67903b27ae498b3069ecc30cc11",
         "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:fb92fcf8e2570804b836b6b627f612ca",
-        "GUID:e65b1573095330f44a331df629ba7fd8"
+        "GUID:e65b1573095330f44a331df629ba7fd8",
+        "GUID:fffd20446df19aa4dad51d69d7549a53"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -33,6 +34,11 @@
             "name": "Select...",
             "expression": "",
             "define": "JOYSTICK"
+        },
+        {
+            "name": "com.fps.sheets",
+            "expression": "",
+            "define": "FPS_SHEETS"
         }
     ],
     "noEngineReferences": false

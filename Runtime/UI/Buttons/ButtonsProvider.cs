@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using EasyButtons;
-using Game.UIService.Buttons;
 using UnityEngine;
 using UnityEngine.Events;
 
