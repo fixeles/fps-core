@@ -6,16 +6,16 @@ namespace FPS.Sheets
 {
 	public static class SheetCommands
 	{
-		public static void Insert(CommandQueue commandQueue, SheetsApi sheetsApi)
+		public static void Insert(CommandQueue commandQueue, DTOStorage dtoStorage)
 		{
 			var sheetData = new Dictionary<string, string>();
-			commandQueue.Enqueue(new LoadSheetConfigCommand(sheetsApi, sheetData));
+			commandQueue.Enqueue(new LoadSheetConfigCommand(sheetData));
 
 			var derivedTypes = Utils.Reflection.FindAllDerivedTypes(typeof(ISheetDTO));
 			foreach (var type in derivedTypes)
 			{
 				Type genericType = typeof(ParseSheetCommand<>).MakeGenericType(type);
-				var command = (Command)Activator.CreateInstance(genericType, sheetsApi, sheetData);
+				var command = (Command)Activator.CreateInstance(genericType, dtoStorage, sheetData);
 				commandQueue.Enqueue(command);
 			}
 		}

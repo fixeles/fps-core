@@ -1,8 +1,8 @@
 #if FPS_SHEETS
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using FPS.Sheets.Editor;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,55 +10,75 @@ namespace FPS.Sheets
 {
 	public class LoadSheetConfigCommand : AsyncCommand
 	{
-		private readonly SheetsApi _sheetsApi;
 		private readonly Dictionary<string, string> _result;
 
-		public LoadSheetConfigCommand(SheetsApi sheetsApi, Dictionary<string, string> result)
+		public LoadSheetConfigCommand(Dictionary<string, string> result)
 		{
-			_sheetsApi = sheetsApi;
 			_result = result;
 		}
 
 		public override async UniTask Do(CancellationToken token)
 		{
-			string compressed;
 #if UNITY_EDITOR
 			try
 			{
 				var config = Resources.Load<SheetsConfig>(nameof(SheetsConfig));
-				if (config.ReceiveType == SheetsConfig.SheetLoadType.EachList)
-					await CompressedConfig.GenerateAsync();
+				if (config.LoadType == SheetsConfig.SheetLoadType.EachSheet)
+				{
+					await SheetsApi.LoadEachDTO(_result);
+					Status = CommandStatus.Success;
+					return;
+				}
 
-				var cachedData = Resources.Load<TextAsset>("CachedSheetsData");
-				compressed = cachedData.text;
-				Resources.UnloadAsset(cachedData);
+				Resources.UnloadAsset(config);
 			}
-			catch (System.Exception e)
+			catch (Exception e)
 			{
-				Status = CommandStatus.Error;
 				Debug.LogException(e);
-				throw;
-			}
-#else
-			try
-			{
-				compressed = await _sheetsApi.LoadCompressedData();
-			}
-			catch (System.Exception e)
-			{
-				var cachedData = Resources.Load<TextAsset>("CachedSheetsData");
-				compressed = cachedData.text;
-				Resources.UnloadAsset(cachedData);
-				Debug.LogException(e);
-				Status = CommandStatus.Error;
+				Decode(GetCached());
+				Status = CommandStatus.Success;
+				return;
 			}
 #endif
-			var decoded = GZip.Decode(compressed);
+
+			string encoded;
+			try
+			{
+				encoded = await SheetsApi.LoadEncodedData();
+			}
+			catch (Exception e1)
+			{
+				Debug.LogException(e1);
+				encoded = GetCached();
+			}
+
+			Decode(encoded);
+			Status = CommandStatus.Success;
+		}
+
+		private void Decode(string encoded)
+		{
+			var decoded = GZip.Decode(encoded);
 			var deserialized = JsonConvert.DeserializeObject<Dictionary<string, string>>(decoded);
 			foreach (var kvp in deserialized)
 				_result.Add(kvp.Key, kvp.Value);
+		}
 
-			Status = CommandStatus.Success;
+		private string GetCached()
+		{
+			try
+			{
+				var cachedData = Resources.Load<TextAsset>("CachedSheetsConfig");
+				var encoded = cachedData.text;
+				Resources.UnloadAsset(cachedData);
+				return encoded;
+			}
+			catch (Exception e2)
+			{
+				Debug.LogException(e2);
+				Status = CommandStatus.Error;
+				throw;
+			}
 		}
 	}
 }

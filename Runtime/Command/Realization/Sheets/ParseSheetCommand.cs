@@ -7,12 +7,12 @@ namespace FPS.Sheets
 {
 	public class ParseSheetCommand<T> : SyncCommand where T : ISheetDTO
 	{
-		private readonly SheetsApi _sheetsApi;
+		private readonly DTOStorage _dtoStorage;
 		private readonly Dictionary<string, string> _decodedData;
 
-		public ParseSheetCommand(SheetsApi sheetsApi, Dictionary<string, string> decodedData)
+		public ParseSheetCommand(DTOStorage dtoStorage, Dictionary<string, string> decodedData)
 		{
-			_sheetsApi = sheetsApi;
+			_dtoStorage = dtoStorage;
 			_decodedData = decodedData;
 		}
 
@@ -22,7 +22,7 @@ namespace FPS.Sheets
 		{
 			try
 			{
-				_sheetsApi.Parse<T>(_decodedData[typeof(T).Name]);
+				Parser.ParseSheet<T>(_dtoStorage, _decodedData[typeof(T).Name]);
 				Status = CommandStatus.Success;
 			}
 			catch (Exception e)
