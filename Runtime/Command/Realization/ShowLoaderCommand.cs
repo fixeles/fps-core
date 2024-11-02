@@ -25,7 +25,7 @@ namespace FPS
             if (!UIService.TryGet(out UILoaderWindow window))
                 return;
 
-            window.UpdateProgress(progress, progress.ToString("P"));
+            window.UpdateProgress(progress, progress.ToString("P0"));
         }
     }
 }

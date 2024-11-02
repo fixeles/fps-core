@@ -53,14 +53,9 @@ namespace FPS
 			Dispose();
 		}
 
-		public void ClearSubscriptions()
-		{
-			ProgressUpdateEvent = null;
-		}
-
 		private void Dispose()
 		{
-			ClearSubscriptions();
+			ProgressUpdateEvent = null;
 			_cts.Dispose();
 		}
 	}
