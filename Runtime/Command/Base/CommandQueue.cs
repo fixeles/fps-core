@@ -12,7 +12,9 @@ namespace FPS
 		public event ProgressDelegate ProgressUpdateEvent;
 
 		private readonly Queue<Command> _queue = new();
-		private readonly CancellationTokenSource _cts = new();
+
+		private readonly CancellationTokenSource _cts =
+			CancellationTokenSource.CreateLinkedTokenSource(RuntimeDispatcher.CancellationToken);
 
 
 		public void Enqueue(Command command)
@@ -37,15 +39,14 @@ namespace FPS
 
 					case AsyncCommand asyncCommand:
 						await asyncCommand.Do(token);
-						if (token.IsCancellationRequested)
-						{
-							Dispose();
-							return;
-						}
-
 						break;
 				}
 
+				if (token.IsCancellationRequested)
+				{
+					Dispose();
+					return;
+				}
 				Debug.Log(command.Status);
 				ProgressUpdateEvent?.Invoke((commandsCount - _queue.Count) / commandsCount);
 			}
@@ -53,9 +54,14 @@ namespace FPS
 			Dispose();
 		}
 
-		private void Dispose()
+		public void ClearSubscriptions()
 		{
 			ProgressUpdateEvent = null;
+		}
+
+		private void Dispose()
+		{
+			ClearSubscriptions();
 			_cts.Dispose();
 		}
 	}

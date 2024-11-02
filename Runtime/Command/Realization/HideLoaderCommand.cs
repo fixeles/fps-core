@@ -4,9 +4,17 @@ namespace FPS
 {
     public class HideLoaderCommand : SyncCommand
     {
-       public override void Do()
+        private readonly CommandQueue _queue;
+
+        public HideLoaderCommand(CommandQueue queue)
+        {
+            _queue = queue;
+        }
+
+        public override void Do()
         {
             UIService.Hide<UILoaderWindow>();
+            _queue.ClearSubscriptions();
             Status = CommandStatus.Success;
         }
     }
