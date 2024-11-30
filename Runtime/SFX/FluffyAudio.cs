@@ -2,77 +2,72 @@ using System;
 using Cysharp.Threading.Tasks;
 using FPS.Pool;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using VContainer;
 
 namespace FPS.SFX
 {
-    public static class FluffyAudio
-    {
-        // private static readonly Dictionary<string, AudioSource> CancellableSfx = new();
-        private static readonly SfxDescription Description;
-        private static AudioSource _currentMusic;
+	public class FluffyAudio : IAudioService
+	{
+		private readonly IObjectPool _pool;
 
-        static FluffyAudio()
-        {
-            //todo: remove resources. Serialize
-            Description = Resources.Load<SfxDescription>(nameof(SfxDescription));
-        }
+		// private static readonly Dictionary<string, AudioSource> CancellableSfx = new();
+		private readonly SfxDescription _description;
+		private AudioSource _currentMusic;
 
-        public static void PlaySfx(string key)
-        {
-            if (!Description.TryGetSfxProtocol(key, out var protocol))
-                return;
+		[Inject]
+		public FluffyAudio(IObjectPool pool)
+		{
+			_pool = pool;
+			//todo: remove resources. Serialize
+			_description = Resources.Load<SfxDescription>(nameof(SfxDescription));
+		}
 
-            var audionSource = FluffyPool.Get<AudioSource>();
-            // if (protocol.Cancellable)
-            // {
-            //     if (CancellableSfx.TryGetValue(key, out AudioSource sfx))
-            //     {
-            //         sfx.Stop();
-            //         CancellableSfx.Remove(key);
-            //     }
-            //     CancellableSfx.Add(key, audionSource);
-            // }
+		public void PlaySfx(string key)
+		{
+			if (!_description.TryGetSfxProtocol(key, out var protocol))
+				return;
 
-            audionSource.Init(protocol);
-            ReleaseAudio(audionSource).Forget();
-            audionSource.Play();
-        }
+			var audionSource = _pool.Get<AudioSource>();
+			// if (protocol.Cancellable)
+			// {
+			//     if (CancellableSfx.TryGetValue(key, out AudioSource sfx))
+			//     {
+			//         sfx.Stop();
+			//         CancellableSfx.Remove(key);
+			//     }
+			//     CancellableSfx.Add(key, audionSource);
+			// }
 
-        private static async UniTaskVoid ReleaseAudio(AudioSource audioSource)
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(audioSource.clip.length));
-            FluffyPool.Return(audioSource);
-        }
+			audionSource.Init(protocol);
+			ReleaseAudio(audionSource).Forget();
+			audionSource.Play();
+		}
 
-        public static void PlayMusic(string key)
-        {
-            if (!Description.TryGetMusicProtocol(key, out var protocol))
-                return;
+		private async UniTaskVoid ReleaseAudio(AudioSource audioSource)
+		{
+			await UniTask.Delay(TimeSpan.FromSeconds(audioSource.clip.length));
+			_pool.Return(audioSource);
+		}
 
-            _currentMusic = FluffyPool.Get<AudioSource>();
-            _currentMusic.Init(protocol);
-            _currentMusic.loop = true;
-            _currentMusic.Play();
-        }
+		public void PlayMusic(string key)
+		{
+			if (!_description.TryGetMusicProtocol(key, out var protocol))
+				return;
 
-        public static void StopMusic()
-        {
-            if (_currentMusic == null)
-                return;
+			_currentMusic = _pool.Get<AudioSource>();
+			_currentMusic.Init(protocol);
+			_currentMusic.loop = true;
+			_currentMusic.Play();
+		}
 
-            _currentMusic.Stop();
-            FluffyPool.Return(_currentMusic);
-            //todo add fade
-        }
+		public void StopMusic()
+		{
+			if (_currentMusic == null)
+				return;
 
-        private static void Init(this AudioSource audioSource, SfxProtocol protocol)
-        {
-            audioSource.clip = protocol.Clip;
-            audioSource.volume = protocol.Volume;
-
-            if (protocol.RandomPitchRange > 0)
-                audioSource.pitch = 1 + Random.Range(-protocol.RandomPitchRange, protocol.RandomPitchRange);
-        }
-    }
+			_currentMusic.Stop();
+			_pool.Return(_currentMusic);
+			//todo add fade
+		}
+	}
 }

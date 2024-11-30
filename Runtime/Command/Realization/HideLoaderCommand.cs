@@ -1,21 +1,32 @@
 using FPS.UI;
+using VContainer;
 
 namespace FPS
 {
-    public class HideLoaderCommand : SyncCommand
-    {
-        private readonly CommandQueue _queue;
+	public class HideLoaderCommand : SyncCommand
+	{
+		private IUIService _uiService;
+		private CommandQueue _commandQueue;
 
-        public HideLoaderCommand(CommandQueue queue)
-        {
-            _queue = queue;
-        }
+		[Inject]
+		public HideLoaderCommand(IUIService uiService)
+		{
+			_uiService = uiService;
+		}
 
-        public override void Do()
-        {
-            UIService.Hide<UILoaderWindow>();
-            _queue.ClearSubscriptions();
-            Status = CommandStatus.Success;
-        }
-    }
+		public override void Do()
+		{
+			_uiService.Hide<UILoaderWindow>();
+			_commandQueue.ClearSubscriptions();
+			Status = CommandStatus.Success;
+			_commandQueue = null;
+			_uiService = null;
+		}
+
+		public Command WithParams(CommandQueue commandQueue)
+		{
+			_commandQueue = commandQueue;
+			return this;
+		}
+	}
 }

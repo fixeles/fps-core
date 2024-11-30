@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
 
 namespace FPS
 {
@@ -13,9 +14,13 @@ namespace FPS
 
 		private readonly Queue<Command> _queue = new();
 
-		private readonly CancellationTokenSource _cts =
-			CancellationTokenSource.CreateLinkedTokenSource(RuntimeDispatcher.CancellationToken);
+		private readonly CancellationTokenSource _cts;
 
+		[Inject]
+		public CommandQueue(RuntimeDispatcher runtimeDispatcher)
+		{
+			_cts = CancellationTokenSource.CreateLinkedTokenSource(runtimeDispatcher.CancellationToken);
+		}
 
 		public void Enqueue(Command command)
 		{
@@ -47,6 +52,7 @@ namespace FPS
 					Dispose();
 					return;
 				}
+
 				Debug.Log(command.Status);
 				ProgressUpdateEvent?.Invoke((commandsCount - _queue.Count) / commandsCount);
 			}

@@ -1,31 +1,41 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using FPS.UI;
+using VContainer;
 
 namespace FPS
 {
-    public class ShowLoaderCommand : AsyncCommand
-    {
-        private readonly CommandQueue _commandQueue;
+	public class ShowLoaderCommand : AsyncCommand
+	{
+		private readonly IUIService _uiService;
+		private CommandQueue _commandQueue;
 
-        public ShowLoaderCommand(CommandQueue commandQueue)
-        {
-            _commandQueue = commandQueue;
-        }
+		[Inject]
+		public ShowLoaderCommand(IUIService uiService)
+		{
+			_uiService = uiService;
+		}
 
-        public override async UniTask Do(CancellationToken token)
-        {
-            await UIService.Show<UILoaderWindow>();
-            _commandQueue.ProgressUpdateEvent += UpdateProgressBar;
-            Status = CommandStatus.Success;
-        }
+		public Command WithParams(CommandQueue commandQueue)
+		{
+			_commandQueue = commandQueue;
+			return this;
+		}
 
-        private void UpdateProgressBar(float progress)
-        {
-            if (!UIService.TryGet(out UILoaderWindow window))
-                return;
+		public override async UniTask Do(CancellationToken token)
+		{
+			await _uiService.Show<UILoaderWindow>();
+			_commandQueue.ProgressUpdateEvent += UpdateProgressBar;
+			Status = CommandStatus.Success;
+			_commandQueue = null;
+		}
 
-            window.UpdateProgress(progress, progress.ToString("P0"));
-        }
-    }
+		private void UpdateProgressBar(float progress)
+		{
+			if (!_uiService.TryGet(out UILoaderWindow window))
+				return;
+
+			window.UpdateProgress(progress, progress.ToString("P0"));
+		}
+	}
 }
